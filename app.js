@@ -1,108 +1,99 @@
+let compSelection;
+let playerSelection;
+
+let msg;
+let playerScore = 0;
+let compScore = 0;
+let winner;
+
 function computerPlay()
 {
-    let m;
-    let randomVal = Math.floor(Math.random()*3);
-    
-    if(randomVal == 0)
+    let randomChoice    = Math.floor(Math.random()*3) + 1;
+    if(randomChoice === 1)
     {
-        m = 'rock';
+        return 'rock';
     }
-    else if(randomVal == 1)
+    else if( randomChoice === 2)
     {
-        m = 'paper';
+        return 'paper';
+    }
+    else{
+        return 'scissors';
+    }
+}
+
+function playRound(playerSelection, compSelection)
+{
+    if(playerSelection === 'rock')
+    {
+        if(compSelection === 'rock')
+        {
+            msg = `It\'s a tie.`;
+        }
+        else if(compSelection === 'paper')
+        {
+            compScore++;
+            msg = `You lose! ${compSelection} beats ${playerSelection}`;
+        }
+        else if(compSelection === 'scissors')
+        {
+            playerScore++
+            msg = `You Win! ${playerSelection} beats ${compSelection}`;
+        }
+    }
+    else if(playerSelection === 'paper')
+    {
+        if(compSelection === 'rock')
+        {
+            playerScore++;
+            msg = `You Win! ${playerSelection} beats ${compSelection}`;
+        }
+        else if(compSelection === 'paper')
+        {
+            msg = `It\'s a tie.`;
+        }
+        else if(compSelection === 'scissors')
+        {
+            compScore++;
+            msg = `You lose! ${compSelection} cut ${playerSelection}`;
+        }
+    }
+    else if(playerSelection === 'scissors')
+    {
+        if(compSelection === 'rock')
+        {
+            compScore++;
+            msg = `You lose! ${compSelection} beats ${playerSelection}`;
+        }
+        else if(compSelection === 'paper')
+        {
+            playerScore++;
+            msg = `You Win! ${compSelection} cut ${playerSelection}`;
+        }
+        else if(compSelection === 'scissors')
+        {
+            msg = `It\'s a tie.`;
+        }
     }
     else
     {
-        m = 'scissors';
+        msg = 'Wrong Input! Sorry';
     }
-    return m;
-}
 
-let msg;
-let comResult = 0;
-let playerResult = 0;
-// let compChoice  = computerPlay();
-// let userChoice  = String(prompt('Enter either rock or paper or scissors: ')).toLowerCase();
-// console.log(compChoice);
-function playGame(player, comp)
-{
+    return msg;
     
-    switch(player)
-    {
-        case 'rock':
-            switch(comp)
-            {
-                case 'rock':
-                    msg ='it\'s a tie';
-                    break
-                case 'paper':
-                    msg = `you loose. ${comp} beats ${player}.`;
-                    comResult++;
-                    break
-                default:
-                    msg = `you win. ${player} beats ${comp}`;
-                    playerResult++;
-                    break
-
-            }
-            break
-            
-        case 'paper':
-            switch(comp)
-            {
-                case 'rock':
-                    msg = `you win. ${player} beats ${comp}`;
-                    playerResult++;
-                    break
-                case 'paper':
-                    msg = 'it\'s a tie';
-                    break
-                default:
-                    msg = `you loose. ${comp} cuts ${player}.`;
-                    comResult++;
-                    break
-
-            }
-            break
-
-            case 'scissors':
-                switch(comp)
-                {
-                    case 'rock':
-                        msg = `you loose. ${comp} beats ${player}.`;
-                        comResult++;
-                        break
-                    case 'paper':
-                        msg = `you win. ${player} cuts ${comp}`;
-                        playerResult++;
-                        break
-                    default:
-                        msg = 'it\'s a tie';
-                        break
-    
-                }
-                break
-            
-            default:
-                msg = `${player} is incorrect input`; 
-                break
-     
-    }
-    
-    return `${msg}`;
 }
 
 function game()
-{    
-    for(count=1; count <= 5; count++)
+{
+    for(let count =1; count <=5; count++)
     {
-        let compChoice  = computerPlay();
-        let userChoice  = String(prompt('Enter either rock or paper or scissors: ')).toLowerCase();
-        // let sd = prompt('say something');
-        console.log(playGame(userChoice, compChoice));
-    }
-    return `Player: ${playerResult} ------- Computer: ${comResult}`;
-}
+        compSelection = computerPlay();
+        playerSelection = prompt('Please Enter your weapon: rock / paper / scissors').toLowerCase();
 
+        console.log(playRound(playerSelection, compSelection));
+    }
+    winner = playerScore > compScore;
+    return `Winner: ${winner ? 'Player' : 'Computer'}` ;
+}
 console.log(game());
-// console.log(playGame(userChoice, compChoice));
