@@ -1,11 +1,19 @@
+/**
+ * ASSIGNMENT: Make a Rock-Paper-Scissors game that is between the computer and a player. The game is 5 rounds.
+ * This is my take on it. It needed a couple of tries and finally it works on the console end.
+ * Below I'm going to try write some comments that will help me remember what I did.
+ * CODE TELLS YOU HOW; COMMENTS TELL YOU WHY
+ */
+
 let compSelection;
 let playerSelection;
 
-let msg;
+let resultMessage;
 let playerScore = 0;
 let compScore = 0;
 let winner;
 
+// function for the computer playing the game by making random choices.
 function computerPlay()
 {
     let randomChoice    = Math.floor(Math.random()*3) + 1;
@@ -22,23 +30,25 @@ function computerPlay()
     }
 }
 
+// function for how one full round of the game should be played taking in the playerSelection & compSelection as params.
 function playRound(playerSelection, compSelection)
 {
     if(playerSelection === 'rock')
     {
         if(compSelection === 'rock')
         {
-            msg = `It\'s a tie.`;
+            compScore = playerScore = 0;
+            resultMessage = `It\'s a tie.\nPlayer = ${playerScore} \t Computer = ${compScore}`;
         }
         else if(compSelection === 'paper')
         {
             compScore++;
-            msg = `You lose! ${compSelection} beats ${playerSelection}`;
+            resultMessage = `You lose! ${compSelection} beats ${playerSelection}.\nPlayer = ${playerScore} \t Computer = ${compScore}`;
         }
         else if(compSelection === 'scissors')
         {
             playerScore++
-            msg = `You Win! ${playerSelection} beats ${compSelection}`;
+            resultMessage = `You Win! ${playerSelection} beats ${compSelection}.\nPlayer = ${playerScore} \t Computer = ${compScore}`;
         }
     }
     else if(playerSelection === 'paper')
@@ -46,16 +56,17 @@ function playRound(playerSelection, compSelection)
         if(compSelection === 'rock')
         {
             playerScore++;
-            msg = `You Win! ${playerSelection} beats ${compSelection}`;
+            resultMessage = `You Win! ${playerSelection} beats ${compSelection}.\nPlayer = ${playerScore} \t Computer = ${compScore}`;
         }
         else if(compSelection === 'paper')
         {
-            msg = `It\'s a tie.`;
+            compScore = playerScore = 0;
+            resultMessage = `It\'s a tie.\nPlayer = ${playerScore} \t Computer = ${compScore}`;
         }
         else if(compSelection === 'scissors')
         {
             compScore++;
-            msg = `You lose! ${compSelection} cut ${playerSelection}`;
+            resultMessage = `You lose! ${compSelection} cut ${playerSelection}.\nPlayer = ${playerScore} \t Computer = ${compScore}`;
         }
     }
     else if(playerSelection === 'scissors')
@@ -63,26 +74,47 @@ function playRound(playerSelection, compSelection)
         if(compSelection === 'rock')
         {
             compScore++;
-            msg = `You lose! ${compSelection} beats ${playerSelection}`;
+            resultMessage = `You lose! ${compSelection} beats ${playerSelection}.\nPlayer = ${playerScore} \t Computer = ${compScore}`;
         }
         else if(compSelection === 'paper')
         {
             playerScore++;
-            msg = `You Win! ${compSelection} cut ${playerSelection}`;
+            resultMessage = `You Win! ${compSelection} cut ${playerSelection}.\nPlayer = ${playerScore} \t Computer = ${compScore}`;
         }
         else if(compSelection === 'scissors')
         {
-            msg = `It\'s a tie.`;
+            compScore = playerScore = 0;
+            resultMessage = `It\'s a tie.\nPlayer = ${playerScore} \t Computer = ${compScore}`;
         }
     }
     else
     {
-        msg = 'Wrong Input! Sorry';
+        resultMessage = 'Wrong Input! Sorry';
     }
 
-    return msg;
+    return resultMessage;
     
 }
+
+// function to determine the overall winner and thus display a message with respect to that.
+function overallResults()
+{
+    if(playerScore > compScore)
+    {
+        winner = 'Winner: Player' ;
+    }
+    else if(playerScore < compScore)
+    {
+        winner = 'Winner: Computer';
+    }
+    else if(playerScore == compScore)
+    {
+        winner = 'It\'s a Tie!!';
+    }
+
+    return winner;
+}
+
 
 function game()
 {
@@ -93,7 +125,7 @@ function game()
 
         console.log(playRound(playerSelection, compSelection));
     }
-    winner = playerScore > compScore;
-    return `Winner: ${winner ? 'Player' : 'Computer'}` ;
+    console.log(overallResults());
 }
+
 console.log(game());
