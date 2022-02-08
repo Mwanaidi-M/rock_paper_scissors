@@ -2,185 +2,146 @@
 
 /* 
     Going to create a rock-paper scrissors project.
-    - it is going to be tested on the browser console before setting up the GUI.
+    - it is going to be tested on the browser console before setting up the UI.
     - Have set up the index.html and linked this external script.js file.
+    - This was a challenging project but with the help of some videos and looking through some code, I managed
+         to complete it.
+
+    - The R-P-S rules are:
+        i) rock > scissors
+        ii) paper > rock
+        iii) scissors > paper
 */
 
-/*  Creating a function called computerPlay that will randomly return 'rock', 'paper' or scissors.
-    - first I'm declaring a variable 'compSelection' that will generate a random value between 1-3
-        then assign each of these values to 'rock', 'paper', 'scissors'.
-
-    Created variables to hold the Computer and Player Scores.
-
-    Created a variable to hold the message if its a tie, win or loss.
-
-    Created a winner variable that will show a message on who the winner is.
+/*  Had to re-do my logic as it was tough to set up the UI with it.
+    - After setting up the HTML, I declared the elements here to make them accessible to add the content to the web.
 */
 
+const displayMsg = document.querySelector('#msg');
+const displayCompScore = document.querySelector('#comp-score');
+const displayUserScore = document.querySelector('#user-score');
+const displayCompChoice = document.querySelector('#comp-choice');
+const displayUserChoice= document.querySelector('#user-choice');
+const displayRoundResult = document.querySelector('#round-res');
+const gameChoices = document.querySelectorAll('button');
+const gameReset = document.querySelector('#reset-game');
+
+// variables that I have used in the functions declared and they'll be passed to the html elements.
 let compSelection; 
 let playerSelection;
 let compScore = 0;
 let playerScore = 0;
+let roundRes;
 let message;
 let winner;
 
-function computerPlay()
+// the reset game button is hidden when playing the game.
+gameReset.setAttribute('style', 'display: none');
+
+// when the gameReset button is clicked, it will refresh the page and reset the game.
+gameReset.addEventListener('click', (e) => window.location.reload());
+
+// looping thru the buttons and adding an EventListener to each when clicked, the playGame func is called.
+gameChoices.forEach(gameChoice => gameChoice.addEventListener('click', playGame));
+
+// the main function for the project taking event(e) as a param and calling all other functions inside here
+function playGame(e)
+{
+    playerSelection = e.target.className;
+    displayUserChoice.innerHTML = ` ${playerSelection}`;
+
+    getComputerChoice();
+
+    playRound();
+
+    getScore();
+
+    getWinner();
+
+   
+}
+
+// function to generate the computer's selction randomly then if needed, display it to the html element.
+function getComputerChoice()
 {
     compSelection = Math.floor(Math.random() * 3) + 1;
 
     if(compSelection === 1)
     {
-        return 'rock';
+        compSelection = 'rock';
     }
     else if(compSelection === 2)
     {
-        return 'paper';
+        compSelection = 'paper';
     }
     else
     {
-        return 'scissors';
+        compSelection = 'scissors';
     }
+    displayCompChoice.innerHTML = ` ${compSelection}`;
 }
 
-/* 
-    Testing if the function works as expected:
-    console.log(computerPlay());
-
-*/
-
-/* 
-    - writing a function that plays a single round of R-P-S taking 2 parameters i.e. compselect, playerselect 
-        and declares a winner.
-    - The R-P-S rules are:
-        i) rock > scissors
-        ii) paper > rock
-        iii) scissors > paper
-    - Logic I used is:
-        - check the computer input then check each input the user enters and then compare if they are greater than,
-        strictly equal or less than the computer input then tell user if they have won or lost or tied.
-        - checking the computer and player input using console.log() to check logic is okay.
-    - To ensure that the player's input is case-insensitive, I used the toUpperCase() method to check if both the comp
-        & player's input are strictly equal when in uppercase.
-
-    - I tally up the computer and player's score in each round and award a point to whoever wins.
-
-    - Each outcome displays a message to the player.
-*/
-
-
-
-function play(compS, playS)
+// function to play a single round of the game and tally the results for the player & computer
+// it also displays the result message on who won the round or if it's a tie.
+function playRound()
 {
-    if (compS === 'rock')
+    if(compSelection === playerSelection)
     {
-        if(playS.toUpperCase() === 'rock'.toUpperCase() )
-        {
-            // added the console message to check the outcome displayed for testing
-            console.log(`Computer Input: ${compS} \nUser Input: ${playS}`);
-            message = "It's a tie!";
-        }
-        else if(playS.toUpperCase()  === 'paper'.toUpperCase() )
-        {
-            playerScore++;
-            console.log(`Computer Input: ${compS} \nUser Input: ${playS}`);
-            message = "You win! Paper beats Rock.";
-        }
-        else if(playS.toUpperCase()  === 'scissors'.toUpperCase() )
-        {
-            compScore++;
-            console.log(`Computer Input: ${compS} \nUser Input: ${playS}`);
-            message = "You lose! Rock beats Scissors.";
-        }
-        else
-        {
-            console.log(`Computer Input: ${compS} \nUser Input: ${playS}`);
-            message = "Wrong Input";
-        }
-        
+        roundRes = "It's a tie!";
     }
-    else if (compS === 'paper')
+    else if(compSelection === 'rock' && playerSelection === 'paper')
     {
-        if(playS.toUpperCase()  === 'rock'.toUpperCase() )
-        {
-            compScore++;
-            console.log(`Computer Input: ${compS} \nUser Input: ${playS}`);
-            message = 'You lose! Paper beats Rock.';
-        }
-        else if(playS.toUpperCase()  === 'paper'.toUpperCase() )
-        {
-            console.log(`Computer Input: ${compS} \nUser Input: ${playS}`);
-            message = "It's a tie!";
-        }
-        else if(playS.toUpperCase()  === 'scissors'.toUpperCase() )
-        {
-            playerScore++;
-            console.log(`Computer Input: ${compS} \nUser Input: ${playS}`);
-            message = "You win! Scissors beats Paper.";
-        }
-        else
-        {
-            console.log(`Computer Input: ${compS} \nUser Input: ${playS}`);
-            message = "Wrong Input";
-        }
- 
+        roundRes = "You win! Paper beats Rock.";
+        playerScore++;
     }
-    else if (compS === 'scissors')
+    else if(compSelection === 'rock' && playerSelection === 'scissors')
     {
-        if(playS.toUpperCase()  === 'rock'.toUpperCase() )
-        {
-            playerScore++;
-            console.log(`Computer Input: ${compS} \nUser Input: ${playS}`);
-            message = 'You win! Rock beats Scissors.';
-        }
-        else if(playS.toUpperCase()  === 'paper'.toUpperCase() )
-        {
-            compScore++;
-            console.log(`Computer Input: ${compS} \nUser Input: ${playS}`);
-            message = 'You lose! Scissors beats Paper.';
-        }
-        else if(playS.toUpperCase()  === 'scissors'.toUpperCase() )
-        {
-            console.log(`Computer Input: ${compS} \nUser Input: ${playS}`);
-            message = "It's a tie";
-        }
-        else
-        {
-            console.log(`Computer Input: ${compS} \nUser Input: ${playS}`);
-            message = 'Wrong Input!';
-        }
+        roundRes = "You lose! Rock beats Scissors.";
+        compScore++;
+    }
+    else if(compSelection === 'paper' && playerSelection === 'rock')
+    {
+        roundRes = "You lose! Paper beats Rock.";
+        compScore++;
+    }
+    else if(compSelection === 'paper' && playerSelection === 'scissors')
+    {
+        roundRes = "You win! Scissors beats Paper.";
+        playerScore++;
+    }
+    else if(compSelection === 'scissors' && playerSelection === 'rock')
+    {
+        roundRes = "You win! Rock beats Scissors.";
+        playerScore++;
+    }
+    else if(compSelection === 'scissors' && playerSelection === 'paper')
+    {
+        roundRes = "You lose! Scissors beats Paper.";
+        compScore++;
+    }
 
-       
-    }
-    
-    return `${message} \nComputer Score: ${compScore} \nPlayer Score: ${playerScore}`;
+    displayRoundResult.innerHTML = ` ${roundRes}`;
 
 }
 
-// console.log(play(computerPlay(), playerSelection));
-// console.log(play(computerPlay(), 'ROCK'));
-
-function game()
+// this function will display the score of the both players on the web page.
+function getScore()
 {
-    for(count=1; count<=5; count++)
-    {
-        playerSelection = prompt('What is your weapon of choice?\n rock or paper or scissors?')
-        // console.log(play(computerPlay(), 'ROCK'));
-        console.log(play(computerPlay(), playerSelection));
-        // play(computerPlay(), 'ROCK');
-    }
-    if(playerScore > compScore)
-    {
-        winner = 'Player Wins!';
-    }
-    else if(playerScore < compScore)
-    {
-        winner = 'Computer Wins';
-    }
-    else
-    {
-        winner = 'Computer and Player tied';
-    }
-    return winner;
+    displayCompScore.innerHTML = `${compScore}`;
+    displayUserScore.innerHTML = `${playerScore}`;
 }
 
-console.log(game());
+// this checks if either of the winners have 5 points and declares a winner then disables the 'click' event for the
+// game buttons and then displays the reset game button if player wishes to replay the game.
+function getWinner()
+{
+    if(compScore === 5 || playerScore === 5)
+    {
+        winner = (compScore === 5) ? `Computer Beat You.` : `You Defeated Computer`;
+        displayMsg.innerHTML = `${winner}`;
+
+        gameChoices.forEach(gameChoice => gameChoice.removeEventListener('click', playGame));
+
+        gameReset.setAttribute('style', 'display: block');
+    }
+}
