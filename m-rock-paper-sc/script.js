@@ -47,8 +47,8 @@ gameChoices.forEach(gameChoice => gameChoice.addEventListener('click', playGame)
 // the main function for the project taking event(e) as a param and calling all other functions inside here
 function playGame(e)
 {
-    playerSelection = e.target.className;
-    displayUserChoice.innerHTML = ` ${playerSelection}`;
+    // playerSelection = e.target.className;
+    playerSelection = e.target.parentElement.parentNode.className;
 
     getComputerChoice();
 
@@ -78,7 +78,7 @@ function getComputerChoice()
     {
         compSelection = 'scissors';
     }
-    displayCompChoice.innerHTML = ` ${compSelection}`;
+    // displayCompChoice.innerHTML = ` ${compSelection}`;
 }
 
 // function to play a single round of the game and tally the results for the player & computer
@@ -137,7 +137,7 @@ function getWinner()
 {
     if(compScore === 5 || playerScore === 5)
     {
-        winner = (compScore === 5) ? `Computer Beat You.` : `You Defeated Computer`;
+        winner = (compScore === 5) ? `Computer Beat You!` : `You Won!`;
         displayMsg.innerHTML = `${winner}`;
 
         gameChoices.forEach(gameChoice => gameChoice.removeEventListener('click', playGame));

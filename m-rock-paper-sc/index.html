@@ -8,35 +8,67 @@
     <title>R-P-S</title>
 
     <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato&family=Montserrat:wght@700&display=swap" rel="stylesheet">
 
     <!-- <script src="./script.js"></script> -->
 </head>
 <body>
     <header>
-        <h1>ROCK - PAPER - SCISSORS</h1>
+        <div class="logo-title">
+            <span>Rock.</span>
+            <span>Paper.</span>
+            <span>Scissors.</span>
+        </div>
+        <nav>
+            <a href="#"><img id="logo-img" src="./images/m.png" alt="logo-img"></a>
+        </nav>
     </header>
     <main>
+        <h2>Think you can beat the Computer?</h2>
+
+        <p>First to score 5 points wins!</p>
+
         <h3 id="msg"></h3>
 
         <table>
             <tr>
                 <td>Computer</td>
+                <td> <hr> </td>
                 <td>Player</td>
             </tr>
             <tr>
                 <td id="comp-score"></td>
+                <td></td>
                 <td id="user-score"></td>
             </tr>
         </table>
 
         <section class="play-buttons">
-            <button class="rock">Rock</button>
-            <button class="paper">Paper</button>
-            <button class="scissors">Scissors</button>
+            <button class="rock">
+                <figure>
+                    <img src="./images/stone.png" alt="rock-img">
+                    <figcaption>Rock</figcaption>
+                </figure>
+                
+            </button>
+            <button class="paper">
+                <figure>
+                    <img src="./images/paper.png" alt="paper-img">
+                    <figcaption>Paper</figcaption>
+                </figure>
+            </button>
+            <button class="scissors">
+                <figure>
+                    <img src="./images/scissors.png" alt="sci-img">
+                    <figcaption>Scissors</figcaption>
+                </figure>
+            </button>
         </section>
 
-        <h3>Computer Chose: <span  id="comp-choice"></span></h3>
-        <h3>Player Chose: <span id="user-choice"></span></h3>
+        <!-- <h3>Computer Chose: <span  id="comp-choice"></span></h3>
+        <h3>Player Chose: <span id="user-choice"></span></h3> -->
 
         <h3 id="round-res"></h3>
 
